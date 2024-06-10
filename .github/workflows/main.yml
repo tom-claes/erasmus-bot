@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      AZURE_KEY: ${{ secrets.AZURE_KEY }}
+      AZURE_KEY: ${{ secrets.AZURE_AI_SEARCH_KEY }}
       AI_SEARCH_ENDPOINT: ${{ secrets.AI_SEARCH_ENDPOINT }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:

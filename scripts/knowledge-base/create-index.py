@@ -8,7 +8,7 @@ from azure.core.credentials import AzureKeyCredential
 def main():
     # Initialiseer de index client
     service_endpoint = os.getenv("AI_SEARCH_ENDPOINT")
-    credential = AzureKeyCredential(os.getenv("AZURE_KEY"))
+    credential = AzureKeyCredential(os.getenv("AZURE_AI_SEARCH_KEY"))
     index_client = SearchIndexClient(endpoint=service_endpoint, credential=credential)
 
     # Definieer het index schema

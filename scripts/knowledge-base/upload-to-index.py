@@ -28,7 +28,7 @@ def main():
     # Initialiseer de SearchClient
     service_endpoint = os.getenv("AI_SEARCH_ENDPOINT")
     index_name = "erasmusbot-index"
-    credential = AzureKeyCredential(os.getenv("AZURE_KEY"))
+    credential = AzureKeyCredential(os.getenv("AZURE_AI_SEARCH_KEY"))
     search_client = SearchClient(endpoint=service_endpoint, index_name=index_name, credential=credential)
 
     # Bereid de pagina's voor om te uploaden
