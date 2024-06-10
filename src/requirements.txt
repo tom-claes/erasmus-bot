@@ -1,12 +1,8 @@
-# for web scraping
 requests
 beautifulsoup4
 tqdm
-
-# html cleaning
 beautifulsoup4
 langchain
 langchain-community
-
 openai
-azure
+azure-search-documents
