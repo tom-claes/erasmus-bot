@@ -16,7 +16,7 @@ def main():
     index_schema = SearchIndex(
         name=index_name,
         fields=[
-            SimpleField(name="id", type=SearchFieldDataType.String),
+            SimpleField(name="id", type=SearchFieldDataType.String, key=True),
             SimpleField(name="title", type=SearchFieldDataType.String, searchable=True),
             SimpleField(name="source", type=SearchFieldDataType.String),
             SimpleField(name="description", type=SearchFieldDataType.String, searchable=True),

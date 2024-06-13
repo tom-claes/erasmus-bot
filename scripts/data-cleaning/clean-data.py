@@ -31,27 +31,42 @@ def parse_html(file_path):
     return [course]
 
 
-# Maak de data schoon door alles buiten de nuttige tekst te verwijderen
 def clean_data(data):
-    # Loop over each item in the data.
+    cleaned_data = []
+
     for item in data:
         for field in ['title', 'description', 'content']:
             key = item[field]
 
-            # Hou enkel de werkelijke body content van de pagina over
-            if field == 'content':
-                body_content_search = re.search('<section class="col-xs-12">(.*?)</section>', key, flags=re.DOTALL)
-                key = body_content_search.group(1) if body_content_search else key
-
-            # Creëer een BeautifulSoup object van de inhoud van het veld
+            # Create a BeautifulSoup object from the content of the field
             soup = BeautifulSoup(key, 'html.parser')
 
-            # Verwijder alle onnodige zaken en sla de propere tekst op in het item
-            [a_tag.decompose() for a_tag in soup.find_all('a')]
-            cleaned_text = soup.get_text().replace('\n', '').replace('\xa0', ' ').replace('\u00AD', '').replace('\u200b', '').replace('\u2009', ' ')
-            item[field] = re.sub(' +', ' ', cleaned_text).strip()
+            # Remove all unnecessary things and save the clean text in the item
+            cleaned_text = soup.get_text().replace('\n', '').replace('\xa0', ' ').replace('\u00AD', '').replace('\u200b', '').replace('\u2009', ' ').replace('\u0081', ' ')
+            cleaned_text = re.sub(' +', ' ', cleaned_text).strip()
 
-    return data
+            if field == 'content':
+                tokens = cleaned_text.split()
+                num_tokens = len(tokens)
+
+                if num_tokens > 3000:
+                    chunks = num_tokens // 3000
+                    if num_tokens % 3000 != 0:
+                        chunks += 1
+                else:
+                    chunks = 1
+
+                chunk_size = min(num_tokens // chunks, 3000)
+                chunks = [' '.join(tokens[i:i + chunk_size]) for i in range(0, num_tokens, chunk_size)]
+
+                for chunk in chunks:
+                    cleaned_item = item.copy()
+                    cleaned_item[field] = chunk
+                    cleaned_data.append(cleaned_item)
+            else:
+                item[field] = cleaned_text
+
+    return cleaned_data
 
 
 def main():
